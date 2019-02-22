@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -18,6 +19,9 @@ import com.google.android.gms.location.LocationServices;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+
 
 public class MainActivity extends AppCompatActivity {
     private TextView mLatitudeTextView, mLongitudeTextView;
@@ -32,11 +36,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mLatitudeTextView = findViewById(R.id.textView1);
         mLongitudeTextView = findViewById(R.id.textView2);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
-
 
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(10000);
@@ -77,19 +80,19 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
         switch (requestCode) {
-            case MY_LOCATION_REQUEST_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startUpdating();
-                } else {
+                case MY_LOCATION_REQUEST_CODE: {
+                    // If request is cancelled, the result arrays are empty.
+                    if (grantResults.length > 0
+                            && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        startUpdating();
+                    } else {
 
-                    Dialog d = new AlertDialog.Builder(MainActivity.this).setTitle("Error").
-                            setMessage("I need GPS permission").create();
-                    d.show();
+                        Dialog d = new AlertDialog.Builder(MainActivity.this).setTitle("Error").
+                                setMessage("I need GPS permission").create();
+                        d.show();
+                    }
+                    return;
                 }
-                return;
-            }
 
         }
 
